@@ -36,10 +36,7 @@ namespace TestingWebApi
         public async Task OnSuccefullLogin_Rturn_List_Succes()
         {
             Mock<IAuthService> service = new Mock<IAuthService>();
-            service.Setup(service => service.Login(new LoginDTO
-            {
-
-            } )).ReturnsAsync(false);
+            service.Setup(service => service.Login(It.IsAny<LoginDTO>()).ReturnsAsync(false);
 
             var controller = new AuthenticationController(service.Object);
 
@@ -55,7 +52,7 @@ namespace TestingWebApi
         public async Task OnFailedLoginReturnBadRequest()
         {
             Mock<IAuthService> service = new Mock<IAuthService>();
-            service.Setup(service=>service.Login(It.IsAny<LoginDTO>())).ReturnsAsync(true);
+            service.Setup(service=>service.Login(It.IsAny<LoginDTO>()).ReturnsAsync(true);
 
             var controller = new AuthenticationController(service.Object);
 

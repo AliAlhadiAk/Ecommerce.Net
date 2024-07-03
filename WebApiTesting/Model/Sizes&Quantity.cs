@@ -8,6 +8,7 @@ namespace WebApiTesting.Model
         public int Product_id {  get; set; }
         [ForeignKey(nameof(Product_id))]
         public Products Products { get; set; }
+        
         public int Quantity {  get; set; }
     }
 }

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiTesting", "WebApiTesting\WebApiTesting.csproj", "{52CD3084-3DB6-416F-8850-49B3891EAAD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EccomerceApp", "WebApiTesting\EccomerceApp.csproj", "{52CD3084-3DB6-416F-8850-49B3891EAAD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingWebApi", "TestingWebApi\TestingWebApi.csproj", "{E8D7728F-D093-4EE0-BDDF-2F418BF00588}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingWebApi", "TestingWebApi\TestingWebApi.csproj", "{E8D7728F-D093-4EE0-BDDF-2F418BF00588}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

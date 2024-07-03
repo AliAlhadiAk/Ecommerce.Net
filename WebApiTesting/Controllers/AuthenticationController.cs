@@ -34,11 +34,11 @@ namespace WebApiTesting.Controllers
         public async Task<IActionResult> Login(LoginDTO dto)
         {
             var login = await _authService.Login(dto);
-            if (login == false)
+            if (login == null)
             {
                 return BadRequest("Wrogn Password or email");
             }
-            return Ok("Welcome back boss");
+            return Ok(login);
         }
 
 

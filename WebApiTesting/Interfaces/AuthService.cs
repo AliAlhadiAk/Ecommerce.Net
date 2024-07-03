@@ -45,7 +45,7 @@ namespace WebApiTesting.Interfaces
 
             // await SendPasswordResetEmail(Email, "www.google.com");
             checkEmail.ResetToken = ResetToken;
-            checkEmail.ResetTokenExpiry = DateTime.Now.AddDays(1);
+            checkEmail.ResetTokenExpiry = DateTime.UtcNow.AddDays(1);
             SendEmail(Email);
             _logger.LogInformation("Send EmailSuccefully");
             response = true;
@@ -71,7 +71,7 @@ namespace WebApiTesting.Interfaces
             return token.ToString();
         }
 
-        public async Task<bool> Login(LoginDTO dto)
+        public async Task<Response> Login(LoginDTO dto)
         {
 
             var response = false;
@@ -79,6 +79,7 @@ namespace WebApiTesting.Interfaces
             if (checkEmail == null)
             {
                 response = false;
+                return null;
             }
 
             var checkPass = await _userManager.CheckPasswordAsync(checkEmail, dto.Password);
@@ -101,12 +102,19 @@ namespace WebApiTesting.Interfaces
                 var token = GenerateToken(claims);
                 var refresh = Guid.NewGuid().ToString();
                 checkEmail.RefreshToken = refresh;
-                checkEmail.RefreshTokenExpiry = DateTime.Now.AddDays(7);
+                checkEmail.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
                 await _appDbContext.SaveChangesAsync();
-
+                return new Response()
+                {
+                    UserId = checkEmail.Id.ToString(),
+                    Token = token,
+                    RefreshToen = refresh,
+                    Role = userRoles.ToString()
+                };
                 response = true ;
             }
-            return response;
+            return null;
+          
         }
 
         public async Task<bool> RefreshTokenrequest(string Refresh_token)

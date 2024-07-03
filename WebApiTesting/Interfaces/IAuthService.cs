@@ -1,11 +1,12 @@
 ﻿using System.Security.Claims;
 using WebApiTesting.DTO_s;
+using WebApiTesting.Model;
 
 namespace WebApiTesting.Interfaces
 {
     public interface IAuthService
     {
-        public Task<bool> Login(LoginDTO dto);
+        public Task<Response> Login(LoginDTO dto);
         public Task<bool> SignUp(RegisterDTO dto);
         public string GenerateToken (List<Claim> claims);
         public Task<bool> SeedRoles();

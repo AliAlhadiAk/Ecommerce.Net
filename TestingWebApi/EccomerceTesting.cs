@@ -77,7 +77,7 @@ namespace TestingWebApi
             {
                
 
-                  new Products { Id = 1, Name = "T-Shirt", Description = "Comfortable cotton T-shirt", ImageUrl = "https://example.com/tshirt.jpg", price = 19.99 },
+                  new Products {  Id = 1, Name = "Jeans", Description = "Slim-fit denim jeans", ImageUrl = "https://example.com/jeans.jpg", price = 39.99  },
                   new Products { Id = 2, Name = "Jeans", Description = "Slim-fit denim jeans", ImageUrl = "https://example.com/jeans.jpg", price = 39.99 },
                   new Products { Id = 3, Name = "Sneakers", Description = "Sporty sneakers", ImageUrl = "https://example.com/sneakers.jpg", price = 59.99 },
                   new Products { Id = 4, Name = "Backpack", Description = "Water-resistant backpack", ImageUrl = "https://example.com/backpack.jpg", price = 29.99 },
@@ -96,6 +96,40 @@ namespace TestingWebApi
             GetCart.Value.Should().NotBeNull();
             GetCart.Value.Should().BeOfType<Products>();
 
+        }
+        [Fact]
+        public async Task OnFailurePurchaseReturn400Badrequest()
+        {
+            var mockService = new Mock<IProductService>();
+            mockService.Setup(service => service.Purchase(It.IsAny<Guid>(), It.IsAny<int>()))
+               .ReturnsAsync(false);
+
+            var controller = new EccomerceController(mockService.Object);
+            var Purchase = (NotFoundObjectResult)await controller.Purchase("2a7eaf6d-89e0-4d9c-af66-4a6f5b5b7b1c", 1);
+            mockService.Verify(service => service.Purchase(It.IsAny<Guid>(),It.IsAny<int>()), Times.Once);
+            Purchase.Should().BeOfType<NotFoundObjectResult>();
+
+        }
+        [Fact]
+        public async Task AddBookAdmin()
+        {
+            var product = new Products
+            {
+                Id = 2,
+                Name = "Jeans",
+                Description = "Slim-fit denim jeans",
+                ImageUrl = "https://example.com/jeans.jpg",
+                price = 39.99
+
+            };
+            var mockService = new Mock<IProductService>();
+            mockService.Setup(service => service.addProductAdmin(product))
+               .ReturnsAsync(true);
+
+            var controller = new EccomerceController(mockService.Object);
+            var Purchase = (OkObjectResult)await controller.AddProductAdmin();
+            mockService.Verify(service => service.addProductAdmin(It.IsAny<Products>()), Times.Once);
+            Purchase.Should().BeOfType<OkObjectResult>();
         }
     }
 }

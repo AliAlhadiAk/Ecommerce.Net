@@ -20,7 +20,7 @@ namespace WebApiTesting.Controllers
         }
 
         [HttpGet("get/products")]
-
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> GetProducts()
         {
          
@@ -57,7 +57,7 @@ namespace WebApiTesting.Controllers
             return Ok("added to cart succefully");
         }
         [HttpPost(("GetCartUser"))]
-        [Authorize(Roles = "USER")]
+        [ServiceFilter(typeof(ApiKeyAuthFilter))]   
         public async Task<IActionResult> GetCartUser(Guid User_id)
         {
 
@@ -72,6 +72,33 @@ namespace WebApiTesting.Controllers
             }
             return Ok(function);
         }
+
+
+        [HttpPost("Purchase")]
+        [Authorize(Roles = "USER")]
+
+        public async Task<IActionResult> Purchase(Guid User_id, int Product_id)
+        {
+            var purchase = await _productService.Purchase(User_id, Product_id); 
+            if(purchase == false)
+            {
+                return BadRequest("Ann error occured while trying to purchase please try again later");
+            }
+            return Ok("You have purchased succefully");
+        }
+        [HttpPost("AddBookAdmin")]
+        [Authorize(Roles = "ADMIN")]
+
+        public async Task<IActionResult> AddProductAdmin(Products dto)
+        {
+            var addProducts = await _productService.addProductAdmin(dto);
+            if(addProducts == false)
+            {
+                return BadRequest("Failed to add Product");
+            }
+            return Ok("Product added succefully");
+        }
+
 
     }
 }

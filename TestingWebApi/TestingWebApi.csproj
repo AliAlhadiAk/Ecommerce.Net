@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebApiTesting\WebApiTesting.csproj" />
+    <ProjectReference Include="..\WebApiTesting\EccomerceApp.csproj" />
   </ItemGroup>
 
   <ItemGroup>
