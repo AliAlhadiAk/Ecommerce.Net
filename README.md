@@ -6,7 +6,9 @@
 
 ### Key Features:
 - Authentication and Authorization with JWT
--Caching for increasing performance
--role and poicy based authorization
--unit testin with xunit
+- Caching for increasing performance
+- role and poicy based authorization
+- unit testin with xunit
+
+
 
