@@ -156,7 +156,7 @@ namespace WebApiTesting.Interfaces
         public void SendEmail(string To)
         {
             string senderEmail = "alialhadiabokhalil@outlook.com"; // Replace with your Outlook email address
-            string senderPassword = "Asp.net_c#123"; // Replace with your Outlook email password
+            string senderPassword = "//"; // Replace with your Outlook email password
 
             // Recipient's email address
             string recipientEmail = To;
