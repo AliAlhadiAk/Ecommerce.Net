@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using MimeKit.Encodings;
+using System.Security.Cryptography.X509Certificates;
 using WebApiTesting.Interfaces;
 using WebApiTesting.Model;
 
@@ -20,7 +22,7 @@ namespace WebApiTesting.Controllers
         }
 
         [HttpGet("get/products")]
-        [Authorize(Roles = "ADMIN")]
+
         public async Task<IActionResult> GetProducts()
         {
          
@@ -57,7 +59,7 @@ namespace WebApiTesting.Controllers
             return Ok("added to cart succefully");
         }
         [HttpPost(("GetCartUser"))]
-        [ServiceFilter(typeof(ApiKeyAuthFilter))]   
+        [Authorize(Roles = "USER")]
         public async Task<IActionResult> GetCartUser(Guid User_id)
         {
 
@@ -74,6 +76,7 @@ namespace WebApiTesting.Controllers
         }
 
 
+
         [HttpPost("Purchase")]
         [Authorize(Roles = "USER")]
 
@@ -87,7 +90,7 @@ namespace WebApiTesting.Controllers
             return Ok("You have purchased succefully");
         }
         [HttpPost("AddBookAdmin")]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN", Policy = "AdminAcces")]
 
         public async Task<IActionResult> AddProductAdmin(Products dto)
         {
@@ -98,7 +101,41 @@ namespace WebApiTesting.Controllers
             }
             return Ok("Product added succefully");
         }
+        [HttpPost("AddBookAdmin")]
+        [Authorize(Roles = "ADMIN",Policy = "AdminAcces")]
+
+        public async Task<IActionResult> DeletProducAdmin(int Product_Id)
+        {
+            var delete_product = await _productService.RemoveProductAdmin(Product_Id);
+            if (delete_product == false)
+            {
+                return BadRequest("Failed to add product");
+            }
+            if (delete_product == null)
+            {
+                return NotFound("Product Not Found");
+            }
+            return Ok("Product deleted Succefully");
+        }
+        [HttpPost]
+        [Authorize(Roles = "USER")]
+
+        public async Task<IActionResult> GetOrderHistory(Guid User_id)
+        {
+            var orderHistory = await _productService.UserOrderHistory(User_id);
+            if(ModelState.IsValid)
+            {
+                if (null == orderHistory)
+                {
+                    return BadRequest("User Not Found");
+                }
+                return Ok(orderHistory);
+            }
+            return BadRequest("Please fill credentials");
+        }
+
 
 
     }
 }
+
